@@ -1,13 +1,14 @@
-// import { useEffect } from 'react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommonCopyInput from './components/CommonCopyInput/CommonCopyInput';
 import CommonText from './components/CommonText';
-// import TitleBar from './components/TitleBar/TitleBar';
+import { PersonalLink } from './models/PersonalLink.model';
+import { getPersonalLinks } from './services/personal-link.service';
 
 function App() {
   const [coverLetter, setCoverLetter] = useState('');
   const [newLabel, setNewLabel] = useState('');
   const [newValue, setNewValue] = useState('');
+  const [ links, setLinks ] = useState([] as PersonalLink[]);
 
   function addNewLabel(): void {
     console.log('new label not implemented...');
@@ -32,20 +33,13 @@ function App() {
     { label: 'Job-Listing Location', value: '', placeholder: 'I found on LinkedIn...' },
     { label: 'Job-Specific Qualifications', value: '', placeholder: 'comma-separated' },
   ];
-  const links = [
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/nicklandkamer' },
-    { label: 'Github', url: 'https://github.com/sandboxcastles' },
-    { label: 'Website', url: 'https://www.nicklandkamer.com' },
-  ];
-  
-  // useEffect(() => {
-  //   const unsub = window.electron.subscribeStatistics(stats => console.log(stats));
-  //   return unsub;
-  // }, []);
+
+  useEffect(() => {
+    getPersonalLinks().then(res => setLinks(res));
+  }, [])
 
   return (
     <>
-      {/* <TitleBar /> */}
       <main className="flex gap-4 w-full max-lg:flex-col">
         <section className="flex flex-col flex-3 gap-8 max-lg:gap-4">
           <h1>Job Search Helper</h1>
@@ -59,7 +53,7 @@ function App() {
           </section>
         </section>
         <aside className="flex flex-2 flex-col gap-2">
-          {links.map((link, i) => <CommonCopyInput key={`link_${i}`} label={link.label} value={link.url} />)}
+          {links.map((link) => <CommonCopyInput key={link.id} label={link.label} value={link.url} />)}
           <hr />
           <CommonText label='Label' placeholder='' value={newLabel} onChange={(text) => updateNewLabel(text)} />
           <CommonText label='Value' placeholder='' value={newValue} onChange={(text) => updateNewValue(text)} />
