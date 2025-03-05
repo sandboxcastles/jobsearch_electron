@@ -1,0 +1,48 @@
+@use 'sass:color';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$buttonBg: #1a1a1a;
+$buttonBgHover: color.scale($buttonBg, $lightness: 10%);
+$buttonBgClick: color.scale($buttonBgHover, $lightness: 10%);
+$fontColorDark: rgba(255, 255, 255, 0.87);
+$bgColorDark: #242424;
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  @apply text-base;
+  @apply leading-6;
+  @apply font-normal;
+  @apply p-4;
+  @apply antialiased;
+
+  color-scheme: light dark;
+  color: $fontColorDark;
+  background-color: $bgColorDark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+* {
+  @apply m-0;
+}
+
+label, input, button {
+  @apply h-8 flex items-center;
+}
+
+button {
+  @apply flex place-items-center h-10 px-4 cursor-pointer rounded-lg border border-solid border-transparent font-medium;
+    font-family: inherit;
+    background-color: $buttonBg;
+    transition: border-color 0.25s;
+
+    &:hover {
+      background-color: $buttonBgHover;
+    }
+    &:active {
+        background-color: $buttonBgClick;
+    }
+}

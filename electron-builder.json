@@ -1,0 +1,9 @@
+{
+    "appId": "com.nicklandkamer.jobsearch",
+    "files": [ "dist-electron", "dist-react" ],
+    "extraResources": ["dist-electron/preload.cjs"],
+    "icon": "./eye-glass256x256.png",
+    "linux": { "target": "AppImage", "category": "Utility" },
+    "mac": { "target": "dmg" },
+    "win": { "target": ["portable", "msi"] }
+}
