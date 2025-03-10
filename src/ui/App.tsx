@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import CommonCopyInput from './components/CommonCopyInput/CommonCopyInput';
 import CommonText from './components/CommonText';
 import { PersonalLink } from './models/PersonalLink.model';
-import { getPersonalLinks } from './services/personal-link.service';
+import { PersonalLinksServiceMock } from './services/personal-links-mock.service';
+import { PersonalLinksServiceContract } from './interfaces/personal-links-service.interface';
 
 function App() {
   const [coverLetter, setCoverLetter] = useState('');
@@ -35,7 +36,8 @@ function App() {
   ];
 
   useEffect(() => {
-    getPersonalLinks().then(res => setLinks(res));
+    const personalLinksService: PersonalLinksServiceContract = new PersonalLinksServiceMock();
+    personalLinksService.getPersonalLinks().then(res => setLinks(res));
   }, [])
 
   return (

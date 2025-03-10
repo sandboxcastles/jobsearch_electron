@@ -1,5 +1,5 @@
 import { JSX, useState } from "react";
-type CommonTextProps = {
+export type CommonTextProps = {
     label: string;
     value: string;
     placeholder?: string;
