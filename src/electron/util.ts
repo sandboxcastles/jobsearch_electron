@@ -10,9 +10,19 @@ export function ipcHandle<Key extends keyof EventPayloadMapping>(
     key: Key,
     handler: () => EventPayloadMapping[Key]
 ) {
-    ipcMain.handle(key, (event) => {
+    ipcMain.handle(key, async (event) => {
         validateEventFrame(event.senderFrame);
         return handler();
+    });
+}
+
+export function ipcHandleWithArgs<Key extends keyof EventPayloadMapping, TArgs>(
+    key: Key,
+    handler: (args: TArgs) => EventPayloadMapping[Key]
+) {
+    ipcMain.handle(key, async (event, args) => {
+        validateEventFrame(event.senderFrame);
+        return handler(args);
     });
 }
 
@@ -28,7 +38,6 @@ export function validateEventFrame(frame: WebFrameMain | null): void {
     if (!frame) {
         throw new Error('No event frame!');
     }
-    console.log('frame.url: ', frame.url);
     if (isDev() && new URL(frame.url).host === 'localhost:5123') {
         return;
     }

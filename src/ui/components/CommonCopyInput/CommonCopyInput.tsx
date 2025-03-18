@@ -8,9 +8,11 @@ type CommonCopyInputProps = {
 
 function CommonCopyInput({ label, value, onChange }: CommonCopyInputProps) {
     const [inputValue, setInputValue] = useState(value);
-    function handleInputValueChange(text: string): void {
-        setInputValue(text);
-        onChange?.(text);
+    function handleInputValueChange(newValue: string): void {
+        if (newValue !== value) {
+            setInputValue(newValue);
+            onChange?.(newValue);
+        }
     }
     async function copyTextToClipboard(): Promise<void> {
         await navigator.clipboard.writeText(inputValue);
@@ -19,8 +21,13 @@ function CommonCopyInput({ label, value, onChange }: CommonCopyInputProps) {
     return (
         <>
             <span className="flex items-center gap-4 font-medium">
-                <CommonText label={label} value={value} onChange={(text) => handleInputValueChange(text)} />
+                <CommonText
+                    label={label}
+                    value={value}
+                    onChange={(newValue) => handleInputValueChange(newValue)}
+                >
                 <button onClick={() => copyTextToClipboard()}>Copy</button>
+                </CommonText>
             </span>
         </>
     );

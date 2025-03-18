@@ -1,14 +1,19 @@
 import electron from 'electron';
 
 electron.contextBridge.exposeInMainWorld('electron', {
-    subscribeStatistics: (callback) => ipcOn('statistics', (statistics) => callback(statistics)),
-    getStaticData: () => ipcInvoke('getStaticData'),
+    getAvailableTokens: () => ipcInvoke('get-available-tokens'),
+    insertAvailableToken: (createToken: CreateAvailableToken) => ipcInvoke('insert-available-token', createToken),
+    getCopyableText: () => ipcInvoke('get-copyable-text'),
+    insertCopyableText: (createCopyableText: CreateCopyableText) => ipcInvoke('insert-copyable-text', createCopyableText),
 } satisfies Window['electron']);
 
-function ipcInvoke<Key extends keyof EventPayloadMapping>(
+function ipcInvoke<Key extends keyof EventPayloadMapping, TArgs>(
     key: Key,
+    args?: TArgs
 ): Promise<EventPayloadMapping[Key]> {
-    return electron.ipcRenderer.invoke(key);
+    return args
+        ? electron.ipcRenderer.invoke(key, args)
+        : electron.ipcRenderer.invoke(key);
 }
 
 function ipcOn<Key extends keyof EventPayloadMapping>(

@@ -1,12 +1,16 @@
 import { app, BrowserWindow } from 'electron';
-import { ipcHandle, isDev } from './util.js';
-import { getStaticData, pollResources } from './resourceManager.js';
+import { ipcHandle, ipcHandleWithArgs, isDev } from './util.js';
 import { getPreloadPath, getUIPath } from './pathResolver.js';
+import db from './db/index.js';
 
-app.on('ready', () => {
+function createWindow() {
     const mainWindow = new BrowserWindow({
+        width: 1900,
+        height: 1080,
         webPreferences: {
-            preload: getPreloadPath()
+            preload: getPreloadPath(),
+            nodeIntegration: false,
+            contextIsolation: true,
         }
     });
     if (isDev()) {
@@ -14,7 +18,21 @@ app.on('ready', () => {
     } else {
         mainWindow.loadFile(getUIPath());
     }
-    pollResources(mainWindow);
+}
 
-    ipcHandle('getStaticData', () => getStaticData());
+app.whenReady().then(() => {
+    createWindow();
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow();
+        }
+    });
+    ipcHandle('get-available-tokens', () => db.availableTokens.getAll());
+    ipcHandleWithArgs('insert-available-token', (createToken: CreateAvailableToken) => db.availableTokens.create(createToken));
+    ipcHandle('get-copyable-text', () => db.copyableText.getAll());
+    ipcHandleWithArgs('insert-copyable-text', (createCopyableText: CreateCopyableText) => db.copyableText.create(createCopyableText));
+})
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
 });
