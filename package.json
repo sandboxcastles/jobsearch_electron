@@ -1,6 +1,7 @@
 {
   "author": "Nick Landkamer",
   "name": "jobsearch",
+  "description": "Application to help make job searching easier.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -19,7 +20,8 @@
     "dist:win": "npm run dist -- --win --x64",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "rebuild": "electron-rebuild -f -w better-sqlite3"
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",

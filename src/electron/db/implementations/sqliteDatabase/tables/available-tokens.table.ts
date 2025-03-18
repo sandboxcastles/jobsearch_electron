@@ -11,7 +11,7 @@ export class AvailableTokensTable implements TableCrud<AvailableToken, CreateAva
     }
 
     init(): void {
-        this.dropTable();
+        // this.dropTable();
         this.createTable();
         this.create({ token: 'companyName', label: 'Company Name' });
         this.create({ token: 'jobTitle', label: 'Job Title' });
@@ -30,7 +30,7 @@ export class AvailableTokensTable implements TableCrud<AvailableToken, CreateAva
         const sql = `INSERT INTO ${this.tableName} VALUES(@id, @token, @label, @value, @placeholder, @isActiveEntity) ON CONFLICT DO NOTHING`;
         const newItem: AvailableToken = {
             id: uuidv4(),
-            token: `{${item.token}}`,
+            token: item.token,
             label: item.label,
             value: item.value || null,
             placeholder: item.placeholder || null,
@@ -45,7 +45,7 @@ export class AvailableTokensTable implements TableCrud<AvailableToken, CreateAva
             // TODO: error?
             return null;
         }
-        const sql = `UPDATE ${this.tableName} SET ${propsForUpdate} WHERE id = ? ON CONFLICT DO NOTHING`;
+        const sql = `UPDATE ${this.tableName} SET ${propsForUpdate} WHERE id = ?`;
         const result = this.db.prepare(sql).run(...propsForUpdate, id);
         return result.changes > 0
             ? this.getOne(id)
@@ -53,7 +53,7 @@ export class AvailableTokensTable implements TableCrud<AvailableToken, CreateAva
             : null;
     };
     delete(id: string) {
-        const sql = `UPDATE ${this.tableName} SET isActiveEntity = false WHERE id = ? ON CONFLICT DO NOTHING`;
+        const sql = `UPDATE ${this.tableName} SET isActiveEntity = false WHERE id = ?`;
         const result = this.db.prepare(sql).run(id);
         return result.changes > 0;
     };

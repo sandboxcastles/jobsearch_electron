@@ -4,7 +4,7 @@ export type CommonTextProps = {
     value?: string;
     placeholder?: string;
     onChange?: (text: string) => void;
-    children?: string | JSX.Element | JSX.Element[]
+    children?: string | JSX.Element | JSX.Element[];
 };
 
 function CommonText({ label, value, placeholder, onChange, children }: CommonTextProps) {

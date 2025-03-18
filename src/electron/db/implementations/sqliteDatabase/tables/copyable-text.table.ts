@@ -11,7 +11,7 @@ export class CopyableTextTable implements TableCrud<CopyableText, CreateCopyable
     }
 
     init(): void {
-        this.dropTable();
+        // this.dropTable();
         this.createTable();
         // this.create({ label: 'LinkedIn', value: 'https://www.linkedin.com/in/nicklandkamer/' });
         // this.create({ label: 'Website', value: 'https://nicklandkamer.com' });
@@ -46,7 +46,7 @@ export class CopyableTextTable implements TableCrud<CopyableText, CreateCopyable
             // TODO: error?
             return null;
         }
-        const sql = `UPDATE ${this.tableName} SET ${propsForUpdate} WHERE id = ? ON CONFLICT DO NOTHING`;
+        const sql = `UPDATE ${this.tableName} SET ${propsForUpdate} WHERE id = ?`;
         const result = this.db.prepare(sql).run(...propsForUpdate, id);
         return result.changes > 0
             ? this.getOne(id)
@@ -54,7 +54,7 @@ export class CopyableTextTable implements TableCrud<CopyableText, CreateCopyable
             : null;
     };
     delete(id: string) {
-        const sql = `UPDATE ${this.tableName} SET isActiveEntity = false WHERE id = ? ON CONFLICT DO NOTHING`;
+        const sql = `UPDATE ${this.tableName} SET isActiveEntity = false WHERE id = ?`;
         const result = this.db.prepare(sql).run(id);
         return result.changes > 0;
     };

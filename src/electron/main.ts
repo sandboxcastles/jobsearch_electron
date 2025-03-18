@@ -29,8 +29,10 @@ app.whenReady().then(() => {
     });
     ipcHandle('get-available-tokens', () => db.availableTokens.getAll());
     ipcHandleWithArgs('insert-available-token', (createToken: CreateAvailableToken) => db.availableTokens.create(createToken));
+    ipcHandleWithArgs('delete-available-token', (id: string) => db.availableTokens.delete(id));
     ipcHandle('get-copyable-text', () => db.copyableText.getAll());
     ipcHandleWithArgs('insert-copyable-text', (createCopyableText: CreateCopyableText) => db.copyableText.create(createCopyableText));
+    ipcHandleWithArgs('delete-copyable-text', (id: string) => db.copyableText.delete(id));
 })
 
 app.on('window-all-closed', () => {

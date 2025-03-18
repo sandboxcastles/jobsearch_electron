@@ -13,4 +13,8 @@ export class CopyableTextService implements CopyableTextServiceContract {
         console.log('update copyable text not implemented: ', item);
         return new Promise((res) => res(null));
     }
+
+    async delete(id: string): Promise<boolean> {
+        return window.electron.deleteCopyableText(id);
+    }
 }

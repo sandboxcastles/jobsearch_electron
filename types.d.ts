@@ -13,8 +13,10 @@ type StaticData = {
 type EventPayloadMapping = {
     ['get-available-tokens']: AvailableToken[];
     ['insert-available-token']: AvailableToken | null;
+    ['delete-available-token']: boolean;
     ['get-copyable-text']: CopyableText[];
     ['insert-copyable-text']: CopyableText | null;
+    ['delete-copyable-text']: boolean;
 };
 
 type UnsubscribeFunction = () => void;
@@ -22,8 +24,11 @@ type UnsubscribeFunction = () => void;
 type ElectronAPI = {
     getAvailableTokens: () => Promise<AvailableToken[]>;
     insertAvailableToken: (createToken: CreateAvailableToken) => Promise<AvailableToken | null>;
+    deleteAvailableToken: (id: string) => Promise<boolean>;
     getCopyableText: () => Promise<CopyableText[]>;
     insertCopyableText: (createCopyableText: CreateCopyableText) => Promise<CopyableText | null>;
+    deleteCopyableText: (id: string) => Promise<boolean>;
+    
 };
 
 interface Window {

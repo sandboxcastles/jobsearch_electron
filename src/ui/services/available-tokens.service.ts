@@ -13,4 +13,8 @@ export class AvailableTokensService implements AvailableTokensServiceContract {
         console.log('update token not implemented: ', updateToken);
         return new Promise((res) => res(null));
     }
+
+    async delete(id: string): Promise<boolean> {
+        return window.electron.deleteAvailableToken(id);
+    }
 }
