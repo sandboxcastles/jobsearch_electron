@@ -14,9 +14,14 @@ type EventPayloadMapping = {
     ['get-available-tokens']: AvailableToken[];
     ['insert-available-token']: AvailableToken | null;
     ['delete-available-token']: boolean;
+
     ['get-copyable-text']: CopyableText[];
     ['insert-copyable-text']: CopyableText | null;
     ['delete-copyable-text']: boolean;
+
+    ['get-cover-letter-paragraphs']: CoverLetterParagraph[];
+    ['insert-cover-letter-paragraph']: CoverLetterParagraph | null;
+    ['delete-cover-letter-paragraph']: boolean;
 };
 
 type UnsubscribeFunction = () => void;
@@ -25,10 +30,14 @@ type ElectronAPI = {
     getAvailableTokens: () => Promise<AvailableToken[]>;
     insertAvailableToken: (createToken: CreateAvailableToken) => Promise<AvailableToken | null>;
     deleteAvailableToken: (id: string) => Promise<boolean>;
+
     getCopyableText: () => Promise<CopyableText[]>;
     insertCopyableText: (createCopyableText: CreateCopyableText) => Promise<CopyableText | null>;
     deleteCopyableText: (id: string) => Promise<boolean>;
     
+    getCoverLetterParagraphs: () => Promise<CoverLetterParagraph[]>;
+    insertCoverLetterParagraph: (item: CreateCoverLetterParagraph) => Promise<CoverLetterParagraph | null>;
+    deleteCoverLetterParagraph: (id: string) => Promise<boolean>;
 };
 
 interface Window {
@@ -70,4 +79,13 @@ interface CreateCopyableText {
     label: string;
     value: string;
     description?: string;
+}
+
+// cover letter paragraphs
+interface CoverLetterParagraph extends BaseDbEntity {
+    text: string;
+}
+
+interface CreateCoverLetterParagraph {
+    text: string;
 }
