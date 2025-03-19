@@ -6,7 +6,9 @@ import db from './db/index.js';
 function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1900,
-        height: 1080,
+        minWidth: 350,
+        height: 900,
+        minHeight: 600,
         webPreferences: {
             preload: getPreloadPath(),
             nodeIntegration: false,

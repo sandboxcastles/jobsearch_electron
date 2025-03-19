@@ -80,7 +80,7 @@ function CopyableTextDisplay() {
             {copyableTextEntries.length > 0 ? <hr/> : ''}
             {
                 copyableTextEntries.length
-                    ? copyableTextEntries.map((copyableText) => <>
+                    ? copyableTextEntries.map((copyableText) =>
                         <CommonCopyInput
                             key={copyableText.id}
                             label={copyableText.label}
@@ -89,7 +89,7 @@ function CopyableTextDisplay() {
                         >
                             <button onClick={() => openConfirmDelete(copyableText.id)}>Delete</button>
                         </CommonCopyInput>
-                    </>)
+                    )
                     : <p className="flex justify-center">No copyable text entries</p>
             }
 
